@@ -4,14 +4,15 @@ import os
 import requests 
 #import json
 
-os.chdir('/Users/cmelo/Google Drive/Python')
+os.chdir('C:/Users/cmelo/Documents/Travel Time')
 filename= 'sampledata.csv'
 data=pandas.read_csv(filename)
 #mode=driving 
 
-print data 
+
 data['duration']=" "
-print data 
+data['distance']=" "
+ 
 
 def makerequests(property):
      print "in make requests"
@@ -30,13 +31,14 @@ def getduration(traveltime):
      return traveltime['rows'][0]['elements'][0]['duration']['value']
 
      
+def getdistance(traveltime):
+     return traveltime['rows'][0]['elements'][0]['distance']['value']
 
 for x in range(0,len(data.index)):
     print x 
     ttjson=makerequests(data.iloc[x]) 
-    print ttjson 
-    print data.loc[x]
-    print data['duration']
     data.ix[x,'duration']=getduration(ttjson)
-    print data 
+    data.ix[x,'distance']=getdistance(ttjson)
+
 #data.apply(gettraveltime, axis=1)
+data.to_csv('sampleoutput.csv')
