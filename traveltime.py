@@ -11,17 +11,17 @@ import requests
 
  
 def get_file_location(): 
-    a=raw_input("Where is your csv file located? (I need the full file path please!)")
+    a=raw_input("Where is your csv file located? (I need the full file path please!)  ")
     return a
 
 def get_mode(): 
     a=raw_input("What mode of travel are you calculating travel times for? \
-        \n enter D for driving, W for walking, or T for public transit") 
+        \n enter D for driving, W for walking, or T for public transit  ") 
     return a 
 
 def makerequests(property):
-     origin=str(property['Latitude'])+","+str(property['Longitude'])
-     destination="42.3587543,-71.060423"
+     origin=str(property['Origin_Lat'])+","+str(property['Origin_Long'])
+     destination=str(property['Destination_Lat'])+","+str(property['Destination_Long'])
      p={'key':'AIzaSyBaFlG4WjXyTu1_zy04IaIgbB-01OXPz1g', 'origins': origin, 'destinations': destination}
      r= requests.post('https://maps.googleapis.com/maps/api/distancematrix/json', params=p)
      return r.json()
@@ -39,12 +39,12 @@ file_location=get_file_location()
 data=pandas.read_csv(file_location)
 data['duration']=" "
 data['distance']=" "
-mode=get_mode
+mode=get_mode()
 
-#for x in range(0,len(data.index)):
-    #ttjson=makerequests(data.iloc[x]) 
-    #data.ix[x,'duration']=getduration(ttjson)
-   # data.ix[x,'distance']=getdistance(ttjson)
+for x in range(0,len(data.index)):
+    ttjson=makerequests(data.iloc[x]) 
+    data.ix[x,'duration']=getduration(ttjson)
+    data.ix[x,'distance']=getdistance(ttjson)
 
 
 data.to_csv('sampleoutput.csv')
