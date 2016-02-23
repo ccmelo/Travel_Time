@@ -11,7 +11,7 @@ import requests
 
  
 def get_file_location(): 
-    a=raw_input("Where is your csv file located? (I need the full file path please!")
+    a=raw_input("Where is your csv file located? (I need the full file path please!)")
     return a
 
 def get_mode(): 
@@ -36,13 +36,7 @@ def getdistance(traveltime):
 
 
 file_location=get_file_location()
-filename=file_location.split('\\')[-1]
-file_location='\\'.join(file_location.split('\\')[0:-1])
-
-
-
-os.chdir(file_location)
-data=pandas.read_csv(filename)
+data=pandas.read_csv(file_location)
 data['duration']=" "
 data['distance']=" "
 mode=get_mode
